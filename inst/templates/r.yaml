@@ -1,0 +1,9 @@
+---
+name:  $NAME
+title: $NAME
+jrs:   "1.0"
+
+items:
+    - name:  text
+      title: $NAME
+      type:  Preformatted

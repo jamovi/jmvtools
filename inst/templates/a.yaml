@@ -1,0 +1,31 @@
+---
+name:  $NAME
+title: $NAME
+jas:     "1.0"
+version: "1.0.0"
+
+options:
+    - name: data
+      type: Data
+
+    - name: dep
+      title: Dependent Variable
+      type: Variable
+
+    - name: group
+      title: Grouping Variable
+      type: Variable
+
+    - name: alt
+      title: Alternative hypothesis
+      type: List
+      options:
+        - Group 1 ≠ Group 2
+        - Group 1 < Group 2
+        - Group 1 > Group 2
+      default: Group 1 ≠ Group 2
+
+    - name: varEq
+      title: Assume equal variances
+      type: Bool
+      default: true
