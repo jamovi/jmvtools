@@ -20,10 +20,10 @@ options:
       title: Alternative hypothesis
       type: List
       options:
-        - Group 1 ≠ Group 2
-        - Group 1 < Group 2
-        - Group 1 > Group 2
-      default: Group 1 ≠ Group 2
+        - not equal
+        - one greater
+        - two greater
+      default: not equal
 
     - name: varEq
       title: Assume equal variances

@@ -1,0 +1,7 @@
+{
+  "name": "jmvtools",
+  "version": "0.0.0",
+  "scripts": {
+    "update": "git submodule update --remote && cd inst/node_modules/jamovi-compiler && npm install"
+  }
+}

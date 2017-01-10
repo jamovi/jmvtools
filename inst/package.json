@@ -1,7 +1,0 @@
-{
-  "name": "jmvtools",
-  "version": "0.0.0",
-  "dependencies": {
-    "jamovi-compiler": "jamovi/jamovi-compiler"
-  }
-}
