@@ -10,4 +10,7 @@ License: What license is it under?
 NeedsCompilation: no
 Encoding: UTF-8
 LazyData: true
+Imports:
+    node,
+    jmvcore
 RoxygenNote: 5.0.1

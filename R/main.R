@@ -1,15 +1,6 @@
 
-nodePath <- function() {
-    os <- unname(Sys.info()['sysname'])
-    if (os == 'Darwin')
-        exe <- system.file('node-darwin', 'bin', 'node', package='jmvtools')
-    else if (os == 'Linux')
-        exe <- system.file('node-linux', 'bin', 'node', package='jmvtools')
-    else if (os == 'Windows')
-        exe <- system.file('node.exe', package='jmvtools')
-    else
-        stop('Unsupported platform', .call=FALSE)
-}
+#' @import jmvcore
+NULL
 
 jmcPath <- function() {
     system.file('node_modules', 'jamovi-compiler', 'index.js', package='jmvtools')
@@ -18,10 +9,11 @@ jmcPath <- function() {
 #' Check that jmvtools is able to find jamovi
 #'
 #' @param home path to a local jamovi installation
+#' @importFrom node node
 #' @export
 check <- function(home=NULL) {
 
-    exe <- nodePath()
+    exe <- node()
     jmc <- jmcPath()
 
     args <- c(jmc, '--check')
@@ -40,10 +32,11 @@ check <- function(home=NULL) {
 #'
 #' @param pkg path to a local directory containing the module source
 #' @inheritParams check
+#' @importFrom node node
 #' @export
 install <- function(pkg='.', home=NULL) {
 
-    exe <- nodePath()
+    exe <- node()
     jmc <- jmcPath()
 
     args <- c(jmc, '--install', pkg)
@@ -60,10 +53,11 @@ install <- function(pkg='.', home=NULL) {
 #' Prepare a jamovi source module
 #'
 #' @inheritParams install
+#' @importFrom node node
 #' @export
 prepare <- function(pkg='.') {
 
-    exe <- nodePath()
+    exe <- node()
     jmc <- jmcPath()
 
     args <- c(jmc, '--prepare', pkg)
