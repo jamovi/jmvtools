@@ -4,10 +4,12 @@
 \alias{addAnalysis}
 \title{Adds a new analysis to a jamovi module}
 \usage{
-addAnalysis(name, path = ".")
+addAnalysis(name, title = name, path = ".")
 }
 \arguments{
 \item{name}{the name for the new analysis}
+
+\item{title}{the title for the new analysis}
 }
 \description{
 Adds a new analysis to a jamovi module

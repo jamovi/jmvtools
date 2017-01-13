@@ -118,9 +118,16 @@ create <- function(path='.') {
 #' Adds a new analysis to a jamovi module
 #'
 #' @param name the name for the new analysis
+#' @param title the title for the new analysis
 #' @inheritParams check
 #' @export
-addAnalysis <- function(name, path='.') {
+addAnalysis <- function(name, title=name, path='.') {
+
+    if ( ! is.character(name) && length(name) != 1)
+        stop('title must be a string', call.=FALSE)
+
+    if ( ! is.character(title) && length(name) != 1)
+        stop('title must be a string', call.=FALSE)
 
     if (length(grep('^[a-zA-Z][a-zA-Z0-9]+$', name)) == 0)
         stop('Analysis names must be at least two characters long and consist only of letters and numbers')
@@ -138,8 +145,10 @@ addAnalysis <- function(name, path='.') {
     aYamlContent <- paste0(readLines(aYamlPath, encoding='UTF-8'), collapse='\n')
     rYamlContent <- paste0(readLines(rYamlPath, encoding='UTF-8'), collapse='\n')
 
-    aYamlContent <- gsub('\\$NAME', name, aYamlContent)
-    rYamlContent <- gsub('\\$NAME', name, rYamlContent)
+    aYamlContent <- gsub('\\$NAME',  name,  aYamlContent)
+    aYamlContent <- gsub('\\$TITLE', title, aYamlContent)
+    rYamlContent <- gsub('\\$NAME',  name,  rYamlContent)
+    rYamlContent <- gsub('\\$TITLE', title, rYamlContent)
 
     aYamlPath <- file.path(jamoviPath, paste0(tolower(name), '.a.yaml'))
     rYamlPath <- file.path(jamoviPath, paste0(tolower(name), '.r.yaml'))
