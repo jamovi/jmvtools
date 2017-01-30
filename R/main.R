@@ -6,6 +6,18 @@ jmcPath <- function() {
     system.file('node_modules', 'jamovi-compiler', 'index.js', package='jmvtools')
 }
 
+#' The current version
+#'
+#' returns the current version of jmvtools
+#'
+#' @export
+version <- function() {
+    lines <- readLines(system.file('DESCRIPTION', package='jmvtools'))
+    version <- lines[grepl('^Version:', lines)]
+    version <- substring(version, 10)
+    version
+}
+
 #' Check that jmvtools is able to find jamovi
 #'
 #' @param home path to a local jamovi installation
