@@ -1,8 +1,9 @@
 ---
 name:  $NAME
 title: $TITLE
-jas:     "1.0"
-version: "1.0.0"
+menuGroup: $MODULE_NAME
+version: '1.0.0'
+jas: '1.0'
 
 options:
     - name: data
@@ -29,3 +30,4 @@ options:
       title: Assume equal variances
       type: Bool
       default: true
+...

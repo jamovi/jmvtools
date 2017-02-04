@@ -147,6 +147,9 @@ addAnalysis <- function(name, title=name, path='.') {
     if ( ! file.exists(file.path(path, 'DESCRIPTION')))
         stop('path does not contain a DESCRITPION file, does not appear to be a package or module', call.=FALSE)
 
+    path <- normalizePath(path, winslash='/', mustWork=FALSE)
+    moduleName <- basename(path)
+
     jamoviPath <- file.path(path, 'jamovi')
     if ( ! dir.exists(jamoviPath))
         dir.create(jamoviPath)
@@ -159,8 +162,10 @@ addAnalysis <- function(name, title=name, path='.') {
 
     aYamlContent <- gsub('\\$NAME',  name,  aYamlContent)
     aYamlContent <- gsub('\\$TITLE', title, aYamlContent)
+    aYamlContent <- gsub('\\$MODULE_NAME', moduleName, aYamlContent)
     rYamlContent <- gsub('\\$NAME',  name,  rYamlContent)
     rYamlContent <- gsub('\\$TITLE', title, rYamlContent)
+    rYamlContent <- gsub('\\$MODULE_NAME', moduleName, rYamlContent)
 
     aYamlPath <- file.path(jamoviPath, paste0(tolower(name), '.a.yaml'))
     rYamlPath <- file.path(jamoviPath, paste0(tolower(name), '.r.yaml'))
