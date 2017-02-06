@@ -6,6 +6,10 @@ jmcPath <- function() {
     system.file('node_modules', 'jamovi-compiler', 'index.js', package='jmvtools')
 }
 
+isWindows <- function() {
+    Sys.info()['sysname'] == 'Windows'
+}
+
 #' The current version
 #'
 #' returns the current version of jmvtools
@@ -31,6 +35,8 @@ check <- function(home=NULL) {
     args <- c(jmc, '--check')
     if (is.null(home))
         home <- getOption('jamovi_home')
+    if ( ! is.null(home) && isWindows())
+        home <- paste0('"', home, '"')
     if ( ! is.null(home))
         args <- c(args, '--home', home)
 
@@ -54,6 +60,8 @@ install <- function(pkg='.', home=NULL) {
     args <- c(jmc, '--install', pkg)
     if (is.null(home))
         home <- getOption('jamovi_home')
+    if ( ! is.null(home) && isWindows())
+        home <- paste0('"', home, '"')
     if ( ! is.null(home))
         args <- c(args, '--home', home)
 
