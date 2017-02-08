@@ -64,6 +64,7 @@ install <- function(pkg='.', home=NULL) {
         home <- paste0('"', home, '"')
     if ( ! is.null(home))
         args <- c(args, '--home', home)
+    args <- c(args, '--rpath', R.home(component='bin'))
 
     out <- system2(exe, args, stdout=TRUE, wait=TRUE)
     out <- paste0(out, collapse='\n')
@@ -81,6 +82,7 @@ prepare <- function(pkg='.') {
     jmc <- jmcPath()
 
     args <- c(jmc, '--prepare', pkg)
+    args <- c(args, '--rpath', R.home(component='bin'))
 
     out <- system2(exe, args, stdout=TRUE, wait=TRUE)
     out <- paste0(out, collapse='\n')
