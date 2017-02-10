@@ -82,6 +82,22 @@ prepare <- function(pkg='.') {
     system2(exe, args, wait=TRUE)
 }
 
+#' Submit a jamovi module to the jamovi store
+#'
+#' @inheritParams install
+#' @importFrom node node
+#' @export
+submit <- function(pkg='.') {
+
+    exe <- node()
+    jmc <- jmcPath()
+
+    args <- c(jmc, '--submit', pkg)
+    args <- c(args, '--rpath', R.home(component='bin'))
+
+    system2(exe, args, wait=TRUE)
+}
+
 #' Create an empty jamovi module
 #'
 #' Creates an empty jamovi module. Astute observers will notice that empty
