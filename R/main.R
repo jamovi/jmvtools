@@ -40,10 +40,7 @@ check <- function(home=NULL) {
     if ( ! is.null(home))
         args <- c(args, '--home', home)
 
-    out <- system2(exe, args, stdout=TRUE, wait=TRUE)
-    out <- paste0(out, collapse='\n')
-    cat(out)
-    cat('\n')
+    system2(exe, args, wait=TRUE)
 }
 
 #' Build and install a local jamovi module into jamovi
@@ -66,9 +63,7 @@ install <- function(pkg='.', home=NULL) {
         args <- c(args, '--home', home)
     args <- c(args, '--rpath', R.home(component='bin'))
 
-    out <- system2(exe, args, stdout=TRUE, wait=TRUE)
-    out <- paste0(out, collapse='\n')
-    cat(out)
+    system2(exe, args, wait=TRUE)
 }
 
 #' Prepare a jamovi source module
@@ -84,10 +79,7 @@ prepare <- function(pkg='.') {
     args <- c(jmc, '--prepare', pkg)
     args <- c(args, '--rpath', R.home(component='bin'))
 
-    out <- system2(exe, args, stdout=TRUE, wait=TRUE)
-    out <- paste0(out, collapse='\n')
-    cat(out)
-    cat('\n')
+    system2(exe, args, wait=TRUE)
 }
 
 #' Create an empty jamovi module
