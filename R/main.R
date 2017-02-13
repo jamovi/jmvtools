@@ -86,7 +86,6 @@ prepare <- function(pkg='.') {
 #'
 #' @inheritParams install
 #' @importFrom node node
-#' @export
 submit <- function(pkg='.') {
 
     exe <- node()
