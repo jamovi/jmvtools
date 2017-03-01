@@ -1,11 +1,11 @@
 ---
 name:  $NAME
 title: $TITLE
-jrs:   "1.0"
+jrs:   "1.1"
 
 items:
     - name:  text
       title: $TITLE
       type:  Preformatted
-      
+
 ...
