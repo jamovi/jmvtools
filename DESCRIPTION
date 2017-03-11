@@ -1,10 +1,10 @@
 Package: jmvtools
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.4.13
-Date: 2017-03-01
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Title: tools to build jamovi modules
+Version: 0.4.15
+Date: 2017-03-11
+Author: Jonathon Love
+Maintainer: Jonathon Love <jon@thon.cc>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
@@ -13,5 +13,5 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     node,
-    jmvcore
+    jmvcore (>= 0.4.0)
 RoxygenNote: 5.0.1
