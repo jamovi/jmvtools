@@ -3,7 +3,7 @@ name:  $NAME
 title: $TITLE
 menuGroup: $MODULE_NAME
 version: '1.0.0'
-jas: '1.0'
+jas: '1.1'
 
 options:
     - name: data
