@@ -3,7 +3,7 @@
 NULL
 
 jmcPath <- function() {
-    system.file('node_modules', 'jamovi-compiler', 'index.js', package='jmvtools')
+    paste0('"', system.file('node_modules', 'jamovi-compiler', 'index.js', package='jmvtools'), '"')
 }
 
 isWindows <- function() {
@@ -53,6 +53,8 @@ install <- function(pkg='.', home=NULL) {
 
     exe <- node()
     jmc <- jmcPath()
+    pkg <- paste0('"', pkg, '"')
+    rhome <- paste0('"', R.home(component='bin'), '"')
 
     args <- c(jmc, '--install', pkg)
     if (is.null(home))
@@ -61,7 +63,8 @@ install <- function(pkg='.', home=NULL) {
         home <- paste0('"', home, '"')
     if ( ! is.null(home))
         args <- c(args, '--home', home)
-    args <- c(args, '--rpath', R.home(component='bin'))
+    if ( ! isWindows())
+        args <- c(args, '--rpath', rhome)
 
     system2(exe, args, wait=TRUE)
 }
@@ -75,24 +78,12 @@ prepare <- function(pkg='.') {
 
     exe <- node()
     jmc <- jmcPath()
+    pkg <- paste0('"', pkg, '"')
+    rhome <- paste0('"', R.home(component='bin'), '"')
 
     args <- c(jmc, '--prepare', pkg)
-    args <- c(args, '--rpath', R.home(component='bin'))
-
-    system2(exe, args, wait=TRUE)
-}
-
-#' Submit a jamovi module to the jamovi store
-#'
-#' @inheritParams install
-#' @importFrom node node
-submit <- function(pkg='.') {
-
-    exe <- node()
-    jmc <- jmcPath()
-
-    args <- c(jmc, '--submit', pkg)
-    args <- c(args, '--rpath', R.home(component='bin'))
+    if ( ! isWindows())
+        args <- c(args, '--rpath', rhome)
 
     system2(exe, args, wait=TRUE)
 }
