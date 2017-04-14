@@ -74,7 +74,7 @@ install <- function(pkg='.', home=NULL) {
 #' @inheritParams install
 #' @importFrom node node
 #' @export
-prepare <- function(pkg='.') {
+prepare <- function(pkg='.', home=NULL) {
 
     exe <- node()
     jmc <- jmcPath()
@@ -82,6 +82,12 @@ prepare <- function(pkg='.') {
     rhome <- paste0('"', R.home(component='bin'), '"')
 
     args <- c(jmc, '--prepare', pkg)
+    if (is.null(home))
+        home <- getOption('jamovi_home')
+    if ( ! is.null(home) && isWindows())
+        home <- paste0('"', home, '"')
+    if ( ! is.null(home))
+        args <- c(args, '--home', home)
     if ( ! isWindows())
         args <- c(args, '--rpath', rhome)
 
@@ -95,7 +101,7 @@ prepare <- function(pkg='.') {
 #'
 #' @param path location to create the new module (the name of the module is inferred from the path)
 #' @export
-create <- function(path='.') {
+create <- function(path='.', home=NULL) {
 
     path <- normalizePath(path, winslash='/', mustWork=FALSE)
     name <- basename(path)
@@ -132,7 +138,7 @@ create <- function(path='.') {
     writeLines(DESCRIPTION_content, DESCRIPTION_path)
     writeLines(NAMESPACE_content,   NAMESPACE_path)
 
-    prepare(path)
+    prepare(path, home)
 }
 
 #' Adds a new analysis to a jamovi module
@@ -141,7 +147,7 @@ create <- function(path='.') {
 #' @param title the title for the new analysis
 #' @inheritParams check
 #' @export
-addAnalysis <- function(name, title=name, path='.') {
+addAnalysis <- function(name, title=name, path='.', home=NULL) {
 
     if ( ! is.character(name) && length(name) != 1)
         stop('title must be a string', call.=FALSE)
@@ -184,5 +190,5 @@ addAnalysis <- function(name, title=name, path='.') {
     writeLines(aYamlContent, aYamlPath)
     writeLines(rYamlContent, rYamlPath)
 
-    prepare(path)
+    prepare(path, home)
 }
