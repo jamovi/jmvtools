@@ -49,7 +49,7 @@ check <- function(home=NULL) {
 #' @inheritParams check
 #' @importFrom node node
 #' @export
-install <- function(pkg='.', home=NULL) {
+install <- function(pkg='.', home=NULL, debug=FALSE) {
 
     exe <- node()
     jmc <- jmcPath()
@@ -65,6 +65,8 @@ install <- function(pkg='.', home=NULL) {
         args <- c(args, '--home', home)
     if ( ! isWindows())
         args <- c(args, '--rpath', rhome)
+    if (debug)
+        args <- c(args, '--debug')
 
     system2(exe, args, wait=TRUE)
 }

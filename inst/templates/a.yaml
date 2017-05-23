@@ -21,10 +21,13 @@ options:
       title: Alternative hypothesis
       type: List
       options:
-        - not equal
-        - one greater
-        - two greater
-      default: not equal
+        - title: Not equal
+          name:  notequal
+        - title: One greater
+          name:  onegreater
+        - title: Two greater
+          name:  twogreater
+      default: notequal
 
     - name: varEq
       title: Assume equal variances
