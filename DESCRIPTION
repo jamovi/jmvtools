@@ -1,8 +1,8 @@
 Package: jmvtools
 Type: Package
 Title: tools to build jamovi modules
-Version: 0.9.4.2
-Date: 2018-09-19
+Version: 0.9.5
+Date: 2018-10-07
 Author: Jonathon Love
 Maintainer: Jonathon Love <jon@thon.cc>
 Description: More about what it does (maybe more than one line)
