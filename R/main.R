@@ -10,6 +10,10 @@ isWindows <- function() {
     Sys.info()['sysname'] == 'Windows'
 }
 
+isLinux <- function() {
+    Sys.info()['sysname'] == 'Linux'
+}
+
 #' The current version
 #'
 #' returns the current version of jmvtools
@@ -35,6 +39,8 @@ check <- function(home=NULL) {
     args <- c(jmc, '--check')
     if (is.null(home))
         home <- getOption('jamovi_home')
+    if (is.null(home) && isLinux())
+        home <- 'flatpak'
     if ( ! is.null(home) && isWindows())
         home <- paste0('"', home, '"')
     if ( ! is.null(home))
@@ -59,6 +65,8 @@ install <- function(pkg='.', home=NULL, debug=FALSE) {
     args <- c(jmc, '--install', pkg)
     if (is.null(home))
         home <- getOption('jamovi_home')
+    if (is.null(home) && isLinux())
+        home <- 'flatpak'
     if ( ! is.null(home) && isWindows())
         home <- paste0('"', home, '"')
     if ( ! is.null(home))
@@ -86,6 +94,8 @@ prepare <- function(pkg='.', home=NULL) {
     args <- c(jmc, '--prepare', pkg)
     if (is.null(home))
         home <- getOption('jamovi_home')
+    if (is.null(home) && isLinux())
+        home <- 'flatpak'
     if ( ! is.null(home) && isWindows())
         home <- paste0('"', home, '"')
     if ( ! is.null(home))
