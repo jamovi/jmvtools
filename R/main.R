@@ -151,7 +151,7 @@ create <- function(path='.', home=NULL, gitignore=TRUE) {
     writeLines(NAMESPACE_content,   NAMESPACE_path)
 
     if (gitignore) {
-        GITIGNORE_path <- system.file('templates', '.gitignore', package='jmvtools', mustWork=TRUE)
+        GITIGNORE_path <- system.file('templates', 'gitignore', package='jmvtools', mustWork=TRUE)
         GITIGNORE_content <- paste0(readLines(GITIGNORE_path, encoding='UTF-8'), collapse='\n')
         GITIGNORE_path <- file.path(path, '.gitignore')
         writeLines(GITIGNORE_content, GITIGNORE_path)
