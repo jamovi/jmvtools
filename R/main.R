@@ -113,7 +113,7 @@ prepare <- function(pkg='.', home=NULL) {
 #'
 #' @param path location to create the new module (the name of the module is inferred from the path)
 #' @export
-create <- function(path='.', home=NULL) {
+create <- function(path='.', home=NULL, gitignore=TRUE) {
 
     path <- normalizePath(path, winslash='/', mustWork=FALSE)
     name <- basename(path)
@@ -149,6 +149,13 @@ create <- function(path='.', home=NULL) {
 
     writeLines(DESCRIPTION_content, DESCRIPTION_path)
     writeLines(NAMESPACE_content,   NAMESPACE_path)
+
+    if (gitignore) {
+        GITIGNORE_path <- system.file('templates', '.gitignore', package='jmvtools', mustWork=TRUE)
+        GITIGNORE_content <- paste0(readLines(GITIGNORE_path, encoding='UTF-8'), collapse='\n')
+        GITIGNORE_path <- file.path(path, '.gitignore')
+        writeLines(GITIGNORE_content, GITIGNORE_path)
+    }
 
     prepare(path, home)
 }
