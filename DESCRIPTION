@@ -1,7 +1,7 @@
 Package: jmvtools
 Type: Package
 Title: tools to build jamovi modules
-Version: 1.6.16
+Version: 1.6.17
 Author: Jonathon Love
 Maintainer: Jonathon Love <jon@thon.cc>
 Description: More about what it does (maybe more than one line)
@@ -11,6 +11,6 @@ NeedsCompilation: no
 Encoding: UTF-8
 LazyData: true
 Imports:
-    node,
+    node (>= 1.1),
     jmvcore (>= 1.2.23)
 RoxygenNote: 5.0.1
