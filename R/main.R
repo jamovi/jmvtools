@@ -41,9 +41,9 @@ checkMinVer <- function(pkg = ".") {
     # if there is a minVer entry, compare it the the version of the jamovi compiler (and throw error if it is higher)
     if (any(grepl("minApp:", lines))) {
         pkgMinVer <- trimws(strsplit(lines[grepl("minApp:", lines)], ":")[[1]][2])
-        if (utils::compareVersion(version(), pkgMinVer) < 0) {
+        if (utils::compareVersion(jmc_version(), pkgMinVer) < 0) {
             stop(sprintf("The minVer (%s) of the module (in jamovi/0000.yaml) is lower than this version of the jamovi compiler (%s).",
-              pkgMinVer, version(), ))
+              pkgMinVer, jmc_version(), ))
         }
     }
 
@@ -59,6 +59,27 @@ version <- function() {
     lines <- readLines(system.file('DESCRIPTION', package='jmvtools'))
     version <- lines[grepl('^Version:', lines)]
     version <- substring(version, 10)
+    version
+}
+
+#' The current jamovi compiler version
+#'
+#' returns the current version of the jamovi compiler (if not found, the version of jmvtools is returned)
+#'
+#' @export
+jmc_version <- function(home = NULL) {
+
+    exe <- node()
+    jmc <- jmcPath()
+    version <- version() # fallback if the compiler is not found
+
+    args <- c(jmc, '--check', argHome(home))
+
+    jmcOutput <- system2(exe, args, wait=TRUE, stdout=TRUE)
+
+    if (any(grepl("jamovi .* found", jmcOutput)))
+        version <- gsub("jamovi (\\d\\.\\d\\.\\d) found .*", "\\1", jmcOutput[grepl("jamovi .* found", jmcOutput)])
+
     version
 }
 
