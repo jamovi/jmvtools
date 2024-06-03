@@ -14,6 +14,42 @@ isLinux <- function() {
     Sys.info()['sysname'] == 'Linux'
 }
 
+argHome <- function(home = NULL) {
+    if (is.null(home))
+        home <- getOption('jamovi_home')
+    if (is.null(home) && isLinux())
+        home <- 'flatpak'
+    if ( ! is.null(home) && isWindows())
+        home <- paste0('"', home, '"')
+    if ( ! is.null(home)) {
+        c('--home', home)
+    } else {
+        NULL
+    }
+}
+
+argRHome <- function() {
+    if ( ! isWindows()) {
+        c('--rpath', paste0('"', R.home(component='bin'), '"'))
+    } else {
+        NULL
+    }
+}
+
+checkMinVer <- function(pkg = ".") {
+    lines <- readLines(file.path(pkg, "jamovi", "0000.yaml"))
+    # if there is a minVer entry, compare it the the version of the jamovi compiler (and throw error if it is higher)
+    if (any(grepl("minApp:", lines))) {
+        pkgMinVer <- trimws(strsplit(lines[grepl("minApp:", lines)], ":")[[1]][2])
+        if (utils::compareVersion(jmc_version(), pkgMinVer) < 0) {
+            stop(sprintf("The minVer (%s) of the module (in jamovi/0000.yaml) is lower than this version of the jamovi compiler (%s).",
+              pkgMinVer, jmc_version(), ))
+        }
+    }
+
+    invisible(NULL)
+}
+
 #' The current version
 #'
 #' returns the current version of jmvtools
@@ -23,6 +59,27 @@ version <- function() {
     lines <- readLines(system.file('DESCRIPTION', package='jmvtools'))
     version <- lines[grepl('^Version:', lines)]
     version <- substring(version, 10)
+    version
+}
+
+#' The current jamovi compiler version
+#'
+#' returns the current version of the jamovi compiler (if not found, the version of jmvtools is returned)
+#'
+#' @export
+jmc_version <- function(home = NULL) {
+
+    exe <- node()
+    jmc <- jmcPath()
+    version <- version() # fallback if the compiler is not found
+
+    args <- c(jmc, '--check', argHome(home))
+
+    jmcOutput <- system2(exe, args, wait=TRUE, stdout=TRUE)
+
+    if (any(grepl("jamovi .* found", jmcOutput)))
+        version <- gsub("jamovi (\\d\\.\\d\\.\\d) found .*", "\\1", jmcOutput[grepl("jamovi .* found", jmcOutput)])
+
     version
 }
 
@@ -36,15 +93,7 @@ check <- function(home=NULL) {
     exe <- node()
     jmc <- jmcPath()
 
-    args <- c(jmc, '--check')
-    if (is.null(home))
-        home <- getOption('jamovi_home')
-    if (is.null(home) && isLinux())
-        home <- 'flatpak'
-    if ( ! is.null(home) && isWindows())
-        home <- paste0('"', home, '"')
-    if ( ! is.null(home))
-        args <- c(args, '--home', home)
+    args <- c(jmc, '--check', argHome(home))
 
     system2(exe, args, wait=TRUE)
 }
@@ -56,23 +105,14 @@ check <- function(home=NULL) {
 #' @importFrom node node
 #' @export
 install <- function(pkg='.', home=NULL, debug=FALSE) {
+    
+    checkMinVer(pkg)
 
     exe <- node()
     jmc <- jmcPath()
     pkg <- paste0('"', pkg, '"')
-    rhome <- paste0('"', R.home(component='bin'), '"')
 
-    args <- c(jmc, '--install', pkg)
-    if (is.null(home))
-        home <- getOption('jamovi_home')
-    if (is.null(home) && isLinux())
-        home <- 'flatpak'
-    if ( ! is.null(home) && isWindows())
-        home <- paste0('"', home, '"')
-    if ( ! is.null(home))
-        args <- c(args, '--home', home)
-    if ( ! isWindows())
-        args <- c(args, '--rpath', rhome)
+    args <- c(jmc, '--install', pkg, argHome(home), argRHome())
     if (debug)
         args <- c(args, '--debug')
 
@@ -89,19 +129,8 @@ prepare <- function(pkg='.', home=NULL) {
     exe <- node()
     jmc <- jmcPath()
     pkg <- paste0('"', pkg, '"')
-    rhome <- paste0('"', R.home(component='bin'), '"')
 
-    args <- c(jmc, '--prepare', pkg)
-    if (is.null(home))
-        home <- getOption('jamovi_home')
-    if (is.null(home) && isLinux())
-        home <- 'flatpak'
-    if ( ! is.null(home) && isWindows())
-        home <- paste0('"', home, '"')
-    if ( ! is.null(home))
-        args <- c(args, '--home', home)
-    if ( ! isWindows())
-        args <- c(args, '--rpath', rhome)
+    args <- c(jmc, '--prepare', pkg, argHome(home), argRHome())
 
     system2(exe, args, wait=TRUE)
 }
