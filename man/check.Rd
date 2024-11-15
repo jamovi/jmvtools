@@ -12,4 +12,3 @@ check(home = NULL)
 \description{
 Check that jmvtools is able to find jamovi
 }
-

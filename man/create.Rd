@@ -4,7 +4,7 @@
 \alias{create}
 \title{Create an empty jamovi module}
 \usage{
-create(path = ".")
+create(path = ".", home = NULL, gitignore = TRUE)
 }
 \arguments{
 \item{path}{location to create the new module (the name of the module is inferred from the path)}
@@ -13,4 +13,3 @@ create(path = ".")
 Creates an empty jamovi module. Astute observers will notice that empty
 jamovi modules are the same as empty R packages.
 }
-

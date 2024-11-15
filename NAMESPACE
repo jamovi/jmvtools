@@ -3,6 +3,8 @@
 export(addAnalysis)
 export(check)
 export(create)
+export(i18nCreate)
+export(i18nUpdate)
 export(install)
 export(prepare)
 export(version)

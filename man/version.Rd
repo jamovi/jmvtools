@@ -9,4 +9,3 @@ version()
 \description{
 returns the current version of jmvtools
 }
-

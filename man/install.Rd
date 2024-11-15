@@ -4,7 +4,7 @@
 \alias{install}
 \title{Build and install a local jamovi module into jamovi}
 \usage{
-install(pkg = ".", home = NULL)
+install(pkg = ".", home = NULL, debug = FALSE)
 }
 \arguments{
 \item{pkg}{path to a local directory containing the module source}
@@ -14,4 +14,3 @@ install(pkg = ".", home = NULL)
 \description{
 Build and install a local jamovi module into jamovi
 }
-
