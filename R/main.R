@@ -26,6 +26,23 @@ version <- function() {
     version
 }
 
+extraArgs <- function(home=NULL, rhome=NULL, debug=FALSE) {
+    args <- character()
+    if (is.null(home))
+        home <- getOption('jamovi_home')
+    if (is.null(home) && isLinux())
+        home <- 'flatpak'
+    if ( ! is.null(home) && isWindows())
+        home <- paste0('"', home, '"')
+    if ( ! is.null(home))
+        args <- c(args, '--home', home)
+    if ( ! isWindows() && ! is.null(rhome))
+        args <- c(args, '--rpath', rhome)
+    if (debug)
+        args <- c(args, '--debug')
+    args
+}
+
 #' Check that jmvtools is able to find jamovi
 #'
 #' @param home path to a local jamovi installation
@@ -35,17 +52,8 @@ check <- function(home=NULL) {
 
     exe <- node()
     jmc <- jmcPath()
-
-    args <- c(jmc, '--check')
-    if (is.null(home))
-        home <- getOption('jamovi_home')
-    if (is.null(home) && isLinux())
-        home <- 'flatpak'
-    if ( ! is.null(home) && isWindows())
-        home <- paste0('"', home, '"')
-    if ( ! is.null(home))
-        args <- c(args, '--home', home)
-
+    xArgs <- extraArgs(home)
+    args <- c(jmc, '--check', xArgs)
     system2(exe, args, wait=TRUE)
 }
 
@@ -62,19 +70,8 @@ install <- function(pkg='.', home=NULL, debug=FALSE) {
     pkg <- paste0('"', pkg, '"')
     rhome <- paste0('"', R.home(component='bin'), '"')
 
-    args <- c(jmc, '--install', pkg)
-    if (is.null(home))
-        home <- getOption('jamovi_home')
-    if (is.null(home) && isLinux())
-        home <- 'flatpak'
-    if ( ! is.null(home) && isWindows())
-        home <- paste0('"', home, '"')
-    if ( ! is.null(home))
-        args <- c(args, '--home', home)
-    if ( ! isWindows())
-        args <- c(args, '--rpath', rhome)
-    if (debug)
-        args <- c(args, '--debug')
+    xArgs <- extraArgs(home, rhome, debug)
+    args <- c(jmc, '--install', pkg, xArgs)
 
     system2(exe, args, wait=TRUE)
 }
@@ -91,17 +88,47 @@ prepare <- function(pkg='.', home=NULL) {
     pkg <- paste0('"', pkg, '"')
     rhome <- paste0('"', R.home(component='bin'), '"')
 
-    args <- c(jmc, '--prepare', pkg)
-    if (is.null(home))
-        home <- getOption('jamovi_home')
-    if (is.null(home) && isLinux())
-        home <- 'flatpak'
-    if ( ! is.null(home) && isWindows())
-        home <- paste0('"', home, '"')
-    if ( ! is.null(home))
-        args <- c(args, '--home', home)
-    if ( ! isWindows())
-        args <- c(args, '--rpath', rhome)
+    xArgs <- extraArgs(home, rhome)
+    args <- c(jmc, '--prepare', pkg, xArgs)
+
+    system2(exe, args, wait=TRUE)
+}
+
+#' Create translations
+#'
+#' @inheritParams install
+#' @importFrom node node
+#' @export
+i18nCreate <- function(code, pkg='.', home=NULL) {
+
+    exe <- node()
+    jmc <- jmcPath()
+    pkg <- paste0('"', pkg, '"')
+
+    xArgs <- extraArgs(home)
+    args <- c(jmc, '--i18n', pkg, '--create', code, xArgs)
+
+    system2(exe, args, wait=TRUE)
+}
+
+#' Update translations
+#'
+#' @inheritParams install
+#' @importFrom node node
+#' @export
+i18nUpdate <- function(code='*', pkg='.', home=NULL, debug=FALSE) {
+
+    exe <- node()
+    jmc <- jmcPath()
+    pkg <- paste0('"', pkg, '"')
+
+    xArgs <- extraArgs(home)
+    args <- c(jmc, '--i18n', pkg, '--update')
+    if (code != '*')
+        args <- c(args, code)
+    args <- c(args, xArgs)
+    if (debug)
+        args <- c(args, '--verbose')
 
     system2(exe, args, wait=TRUE)
 }
