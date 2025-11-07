@@ -1,3 +1,0 @@
-[submodule "inst/node_modules/jamovi-compiler"]
-	path = inst/node_modules/jamovi-compiler
-	url = https://github.com/jamovi/jamovi-compiler.git
