@@ -34,6 +34,10 @@ git push
 # 4. tidy up (delete the tmp)
 
 git branch -D tmp/compiler
+
+# 5. return to main
+
+git checkout main
 ```
 
 Having updated the subtree branch, we now update the subdirectory in the `jmvtools` repo.
