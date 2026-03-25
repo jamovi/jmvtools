@@ -1,8 +1,8 @@
 Package: jmvtools
 Type: Package
 Title: tools to build jamovi modules
-Version: 2.7.24
-Author: Jonathon Love
+Version: 2.7.25
+Author: Jonathon Love, Damian Dropmann
 Maintainer: Jonathon Love <jon@thon.cc>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
